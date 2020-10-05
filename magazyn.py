@@ -6,7 +6,11 @@ items = [
     {"Name":"Coffee", "Quantity": 25, "Unit": "kg", "Unit Price (PLN)": 40}
 ]
 
-sold_items = []
+sold_items = [    
+    {"Name":"Milk", "Quantity": 0, "Unit": "l", "Unit Price (PLN)": 2.3},
+    {"Name":"Sugar", "Quantity": 0, "Unit": "kg", "Unit Price (PLN)": 3},
+    {"Name":"Flour", "Quantity": 0, "Unit": "kg", "Unit Price (PLN)": 1.2},
+    {"Name":"Coffee", "Quantity": 0, "Unit": "kg", "Unit Price (PLN)": 40}]
 
 def get_items(items):
     print("{:<10s}{:>7s}{:>9s}{:>20s}".format("Name","Quantity","Unit","Unit Price (PLN)"))
@@ -24,13 +28,17 @@ def add_item(items):
     items.append({"Name":name, "Quantity": quantity, "Unit": unit_name, "Unit Price (PLN)": unit_price})
     get_items(items)
 
-def sell_item(items):
+def sell_item(items, sold_items):
     name = str(input("Item name: "))
     quantity_to_sell = int(input("Quantity to sell: "))
     for i in range(len(items)):
         if items[i]["Name"] == name:
-            items[i]["Quantity"] = items[i]["Quantity"] - quantity_to_sell
-    
+            items[i]["Quantity"] = items[i]["Quantity"] - quantity_to_sell           
+            for z in range(len(sold_items)):
+                if sold_items[z]["Name"] == name:
+                    sold_items[z]["Quantity"] = sold_items[z]["Quantity"] + quantity_to_sell
+            
+    #print(sold_items)
     get_items(items)
 
 def menu(items):
@@ -44,7 +52,7 @@ def menu(items):
     elif command == "add":
         add_item(items)
     elif command == "sell":
-        sell_item(items)
+        sell_item(items, sold_items)
     return message
 
 
