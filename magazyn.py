@@ -1,3 +1,4 @@
+import csv
 
 items = [
     {"Name":"Milk", "Quantity": 120.111, "Unit": "l", "Unit Price (PLN)": 2.3},
@@ -14,7 +15,7 @@ sold_items = [
 
 def get_items(items):
     print("{:<10s}{:>9s}{:>12s}{:>23s}".format("Name","Quantity","Unit","Unit Price (PLN)"))
-    dash = "-" * 47
+    dash = "-" * 55
     print(dash)
     for i in range(len(items)):
         print("{:<10s}{:>9.2f}{:>12s}{:>14.2f}".format(list(items[i].values())[0],list(items[i].values())[1],list(items[i].values())[2],list(items[i].values())[3]))
@@ -56,9 +57,27 @@ def show_revenue(costs, income):
     print("-" * 10)
     print(f"Revenue: {income - costs}")
 
+def export_items_to_csv(items):
+    with open("magazyn.csv", "w") as new_file:
+        fieldname = ["Name", "Quantity", "Unit", "Unit Price (PLN)"]
+        csv_writer = csv.DictWriter(new_file, fieldnames=fieldname, quoting=csv.QUOTE_NONNUMERIC)
+        csv_writer.writeheader()
+        for line in items:
+            csv_writer.writerow(line)
+
+def load_items_from_csv(items):
+    items.clear()
+    with open("magazyn.csv", "r") as csv_file:
+        csv_reader = csv.DictReader(csv_file, quoting=csv.QUOTE_NONNUMERIC)
+        for line in csv_reader:
+            items.append(line)
+        print(items)
+    return items
+
+
 def menu(items):
     message = print("What would you like to do? (for commands write commands): ")
-    commands = "show, exit, add, sell, show revenue"
+    commands = "show, exit, add, sell, show revenue, save"
     command = input().lower()
     if command == "exit":
         print("Exiting.... Bye!!")
@@ -75,6 +94,10 @@ def menu(items):
         show_revenue(costs, income)
     elif command == "commands":
         print(commands)
+    elif command == "save":
+        export_items_to_csv(items)
+    elif command == "load":
+        load_items_from_csv(items)
     return message
 
 
