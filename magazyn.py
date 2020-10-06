@@ -95,8 +95,8 @@ def menu(items):
         print(commands)
     elif command == "save":
         export_items_to_csv(items)
-    #elif command == "load":
-    #    load_items_from_csv(items)
+    elif command == "load":
+        load_items_from_csv(items)
     return message
 
 
