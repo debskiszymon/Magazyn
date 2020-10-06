@@ -1,4 +1,5 @@
 import csv
+import sys
 
 items = [
     {"Name":"Milk", "Quantity": 120.111, "Unit": "l", "Unit Price (PLN)": 2.3},
@@ -67,13 +68,11 @@ def export_items_to_csv(items):
 
 def load_items_from_csv(items):
     items.clear()
-    with open("magazyn.csv", "r") as csv_file:
+    infile = sys.argv[1]
+    with open(infile, "r") as csv_file:
         csv_reader = csv.DictReader(csv_file, quoting=csv.QUOTE_NONNUMERIC)
         for line in csv_reader:
             items.append(line)
-        print(items)
-    return items
-
 
 def menu(items):
     message = print("What would you like to do? (for commands write commands): ")
@@ -96,12 +95,13 @@ def menu(items):
         print(commands)
     elif command == "save":
         export_items_to_csv(items)
-    elif command == "load":
-        load_items_from_csv(items)
+    #elif command == "load":
+    #    load_items_from_csv(items)
     return message
 
 
 if __name__ == "__main__":
+    load_items_from_csv(items)
     while True:
         menu(items)
         
